@@ -1,20 +1,22 @@
 module Life exposing (cells) -- where
 
 import Html exposing (span, div, text, node)
-import Html.Attributes exposing (class, attribute, style)
+import Html.Attributes exposing (id, class, attribute, style)
 import Html.App exposing (beginnerProgram)
 import List exposing (repeat)
 import String exposing (concat)
 
-cells (w,h) = repeat (w*h) (div [attribute "style" cellStyle] [])
+cells (w,h) = repeat (w*h) (div [class "cell"] [])
 
 main = beginnerProgram
     {
-        model = (50,50),
-        view = (\model -> div [attribute "style" viewStyle] [div [attribute "style" (boxStyle model)] (cells model)]),
+        model = (30,30),
+        view = (\model -> node "wrapper" [] [
+            style, -- setup
+            div [id "view"] [div [id "box", attribute "style" (boxStyle model)] (cells model)]]),
         update = identity
     }
 
-viewStyle = "display: flex; height: 100%;"
-boxStyle (w,h) = concat ["width: ",toString (w*10),"px; height: ",toString (h*10),"px; display: flex; flex-flow: row wrap; margin: auto;"]
-cellStyle = "margin-left: -1px; margin-top: -1px; padding:0; border: 1px solid #CCCCCC; width: 9px; height: 9px;"
+boxStyle (w,h) = concat ["width: ",toString (w*10),"px; height: ",toString (h*10),"px;"]
+
+style = node "style" [] [text "#view { display: flex; height: 100%;} #box { display: flex; flex-flow: row wrap; margin: auto; } .cell { margin-left: -1px; margin-top: -1px; padding:0; border: 1px solid black; width: 9px; height: 9px;}"]
