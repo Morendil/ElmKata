@@ -1,7 +1,7 @@
 import Check exposing (..)
 import Check.Producer exposing (..)
 import Check.Test exposing (..)
-import ElmTest exposing (runSuiteHtml)
+import ElmTest exposing (runSuiteHtml, equals)
 import List exposing (length)
 
 import Life exposing (cells)
@@ -22,5 +22,9 @@ myClaims =
         tuple (rangeInt 1 100, rangeInt 1 100)
     ]
 
+myTests = ElmTest.suite "Tests"
+  [
+    equals 4 (length <| cells (2,2))
+  ]
 
-main = ElmTest.runSuiteHtml (Check.Test.evidenceToTest evidence)
+main = ElmTest.runSuiteHtml <| ElmTest.suite "Everything" [myTests, (Check.Test.evidenceToTest evidence)]

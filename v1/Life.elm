@@ -19,4 +19,4 @@ main = beginnerProgram
 
 boxStyle (w,h) = concat ["width: ",toString (w*10),"px; height: ",toString (h*10),"px;"]
 
-style = node "style" [] [text "#view { display: flex; height: 100%;} #box { display: flex; flex-flow: row wrap; margin: auto; } .cell { margin-left: -1px; margin-top: -1px; padding:0; border: 1px solid black; width: 9px; height: 9px;}"]
+style = node "style" [] [text "#view { display: flex; height: 100%;} #box { display: flex; flex-flow: row wrap; margin: auto; } .cell { margin-left: -1px; margin-top: -1px; padding:0; border: 1px solid #BBBBBB; width: 9px; height: 9px;}"]
