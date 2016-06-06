@@ -1,4 +1,8 @@
 import Html exposing (text)
+import Html.App exposing (beginnerProgram)
 
-main =
-  text "Hello, World!"
+main = beginnerProgram {
+    model  = "Hello World!",
+    view   = text,
+    update = identity
+  }
