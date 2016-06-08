@@ -1,6 +1,9 @@
 import Html exposing (a, div, text, Html)
 import Html.App exposing (beginnerProgram)
 import Html.Events exposing (onClick)
+import Element exposing (toHtml)
+import Collage exposing (filled, rect, collage)
+import Color exposing (..)
 import String exposing (concat)
 
 type alias World = Int
@@ -13,7 +16,8 @@ view : World -> Html Event
 view model =
     div [] [
         text (String.concat ["The world is new! It's ", (toString model), " seconds old."]),
-        div [onClick Start] [text "Click to start the world."]
+        div [onClick Start] [text "Click to start the world."],
+        toHtml <| collage 100 100 [filled black <| rect 100.0 100.0]
     ]
 
 update : Event -> World -> World
