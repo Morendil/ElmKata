@@ -11,7 +11,7 @@ view : Model -> Html Never
 view model = text (String.concat ["The world is new! It's ", (toString model), " seconds old."])
 
 update : Never -> Model -> Model
-update event = identity
+update _ = identity
 
 main = beginnerProgram {
         model = model,
