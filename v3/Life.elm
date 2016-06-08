@@ -17,7 +17,7 @@ view model =
     ]
 
 update : Event -> Model -> Model
-update = always identity
+update event model = model + 1
 
 main = beginnerProgram {
         model = model,
