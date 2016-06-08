@@ -16,7 +16,7 @@ model : World
 model = {w=20,h=20,age=0}
 
 dimensions: World -> Dimensions
-dimensions world = {w=0.0, h=0.0}
+dimensions world = {w=10*world.w, h=10*world.h}
 
 view : World -> Html Event
 view model =
