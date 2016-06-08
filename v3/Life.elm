@@ -1,8 +1,9 @@
 import Html exposing (text)
 import Html.App exposing (beginnerProgram)
+import String exposing (concat)
 
 main = beginnerProgram {
-        model = "The world is new! It's 0 seconds old.",
-        view = \ model -> text model,
+        model = 0,
+        view = \ model -> text (String.concat ["The world is new! It's ", (toString model), " seconds old."]),
         update = \ event model -> model
     }
