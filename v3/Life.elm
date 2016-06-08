@@ -1,3 +1,5 @@
+module Life exposing (..) -- where
+
 import Html exposing (a, div, text, Html)
 import Html.App exposing (beginnerProgram)
 import Html.Events exposing (onClick)
@@ -6,11 +8,15 @@ import Collage exposing (filled, rect, collage)
 import Color exposing (..)
 import String exposing (concat)
 
-type alias World = Int
+type alias Dimensions = {w:Float, h:Float}
+type alias World = {w:Float, h:Float, age: Int}
 type Event = Start
 
 model : World
-model = 0
+model = {w=20,h=20,age=0}
+
+dimensions: World -> Dimensions
+dimensions world = {w=0.0, h=0.0}
 
 view : World -> Html Event
 view model =
@@ -21,7 +27,7 @@ view model =
     ]
 
 update : Event -> World -> World
-update event model = model + 1
+update event model = {model | age = model.age + 1}
 
 main = beginnerProgram {
         model = model,
