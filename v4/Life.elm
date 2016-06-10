@@ -1,5 +1,8 @@
+module Life exposing (view) -- where
 import Html exposing (text)
 
 world = [(0,0)]
 
-main = text <| toString world
+view world = text <| toString world
+
+main = view world
