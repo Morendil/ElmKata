@@ -16,10 +16,12 @@ view cells =
 
 evolve word = []
 
+update event model = (evolve model, Cmd.none)
+
 main = program
     {
     init = (world, Cmd.none),
     view = \ model -> view model,
-    update = \ event model -> (model, Cmd.none),
+    update = update,
     subscriptions = \ model -> Time.every second Tick
     }
