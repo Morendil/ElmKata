@@ -1,4 +1,5 @@
 import Html exposing (text)
 
-main =
-  text "Hello, World!"
+world = [(0,0)]
+
+main = text <| toString world
