@@ -9,7 +9,8 @@ myTests = suite "Life"
         equals [] (evolve [(0,0)]),
         equals [(0,1),(0,-1),(1,0),(1,1),(1,-1),(-1,0),(-1,1),(-1,-1)] (neighbours (0,0)),
         equals [(4,5),(4,3),(5,4),(5,5),(5,3),(3,4),(3,5),(3,3)] (neighbours (4,4)),
-        equals 1 (countNeighbours (0,0) [(0,1)])
+        equals 1 (countNeighbours (0,0) [(0,1)]),
+        equals 8 (countNeighbours (0,0) (neighbours (0,0)))
     ]
 
 main = runSuiteHtml myTests

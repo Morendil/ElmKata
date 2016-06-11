@@ -4,6 +4,8 @@ import Html.App exposing (program)
 import String exposing (concat)
 import List exposing (length, map, concatMap, drop)
 import Time exposing (Time, second)
+import Dict
+import Dict.Extra
 
 type Event = Tick Time
 
@@ -11,7 +13,14 @@ world = [(0,0)]
 
 evolve word = []
 
-countNeighbours cell world = 0
+neighbourMap world =
+    Dict.Extra.groupBy identity <| concatMap neighbours world
+
+countNeighbours cell world =
+    let value = Dict.get cell <| neighbourMap world
+    in case value of
+        Nothing -> 0
+        Just keys -> length keys
 
 neighbours (x,y) =
     map (\ (ox,oy) -> (x+ox,y+oy)) neighbourOffsets
