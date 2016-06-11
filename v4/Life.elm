@@ -3,7 +3,7 @@ import Html exposing (text, div)
 import Html.App exposing (program)
 import String exposing (concat)
 import List exposing (length, map, concatMap, drop, member)
-import Time exposing (Time, second)
+import Time exposing (..)
 import Collage exposing (filled, rect, collage, move)
 import Color exposing (..)
 import Element exposing (toHtml)
@@ -15,13 +15,16 @@ type Event = Tick Time
 
 world = [(-1,0),(0,0),(1,0),(1,1),(0,2)]
 
+wrap world = map (\(x,y) -> (x%80,y%60)) world
+
 evolve world = 
     let wasAlive cell = member cell world
-        filtered = Dict.filter (\ cell count -> (count == 3) || ((wasAlive cell) && (count == 2))) (neighbourMap world)
+        alive cell count = (count == 3) || ((wasAlive cell) && (count == 2))
+        filtered = Dict.filter alive <| neighbourMap world
     in Dict.keys filtered
 
 neighbourMap world =
-    Dict.map (always length) <| Dict.Extra.groupBy identity <| concatMap neighbours world
+    Dict.map (always length) <| Dict.Extra.groupBy identity <| wrap <| concatMap neighbours world
 
 countNeighbours cell world =
     withDefault 0 <| Dict.get cell <| neighbourMap world
@@ -40,13 +43,13 @@ debug cells =
         otherwise   -> text <| concat ["The world has population ", toString <| length cells, " ", toString cells]
 
 display cells =
-    let displayOne (x,y) = move (x*10.1, y*10.1) <| filled white <| rect 10 10
+    let displayOne (x,y) = move ((toFloat x)*11-440, (toFloat y)*11-330) <| filled white <| rect 10 10
     in map displayOne cells
 
 view cells =
     div []  [
         debug cells,
-        toHtml <| collage 800 600 ((filled black <| rect 800 600) :: display cells)
+        toHtml <| collage 880 660 ((filled black <| rect 880 660) :: display cells)
             ]
 
 update event model = (evolve model, Cmd.none)
@@ -56,5 +59,5 @@ main = program
     init = (world, Cmd.none),
     view = view,
     update = update,
-    subscriptions = always (Time.every second Tick)
+    subscriptions = always (Time.every (inMilliseconds 200) Tick)
     }
