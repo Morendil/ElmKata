@@ -43,7 +43,7 @@ debug cells =
         otherwise   -> text <| concat ["The world has population ", toString <| length cells, " ", toString cells]
 
 display cells =
-    let displayOne (x,y) = move ((toFloat x)*11-440, (toFloat y)*11-330) <| filled white <| rect 10 10
+    let displayOne (x,y) = move ((toFloat x)*11-445, (toFloat y)*11-325) <| filled white <| rect 10 10
     in map displayOne cells
 
 view cells =
