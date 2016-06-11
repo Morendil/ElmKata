@@ -10,8 +10,9 @@ import Element exposing (toHtml)
 import Maybe exposing (withDefault)
 import Dict
 import Dict.Extra
+import Random
 
-type Event = Tick Time
+type Event = Tick Time | World (List (Int, Int))
 
 world = [(-1,0),(0,0),(1,0),(1,1),(0,2)]
 
@@ -48,15 +49,17 @@ display cells =
 
 view cells =
     div []  [
-        debug cells,
         toHtml <| collage 880 660 ((filled black <| rect 880 660) :: display cells)
             ]
 
-update event model = (evolve model, Cmd.none)
+update event model =
+    case event of
+        Tick _ -> (evolve model, Cmd.none)
+        World model -> (model, Cmd.none)
 
 main = program
     {
-    init = (world, Cmd.none),
+    init = (world, Random.generate World (Random.list 100 <| Random.pair (Random.int 20 60) (Random.int 15 45))),
     view = view,
     update = update,
     subscriptions = always (Time.every (inMilliseconds 200) Tick)
