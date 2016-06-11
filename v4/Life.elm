@@ -1,4 +1,4 @@
-module Life exposing (view, evolve, neighbours) -- where
+module Life exposing (view, evolve, neighbours, countNeighbours) -- where
 import Html exposing (text)
 import Html.App exposing (program)
 import String exposing (concat)
@@ -10,6 +10,8 @@ type Event = Tick Time
 world = [(0,0)]
 
 evolve word = []
+
+countNeighbours cell world = 0
 
 neighbours (x,y) =
     map (\ (ox,oy) -> (x+ox,y+oy)) neighbourOffsets
