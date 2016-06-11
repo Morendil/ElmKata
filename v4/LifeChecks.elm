@@ -11,6 +11,9 @@ myTests = suite "Life"
         equals [(4,5),(4,3),(5,4),(5,5),(5,3),(3,4),(3,5),(3,3)] (neighbours (4,4)),
         equals 1 (countNeighbours (0,0) [(0,1)]),
         equals 8 (countNeighbours (0,0) (neighbours (0,0))),
+        equals 2 (countNeighbours (0,0) [(0,-1),(0,0),(0,1)]),
+        equals 1 (countNeighbours (0,1) [(0,-1),(0,0),(0,1)]),
+        equals 3 (countNeighbours (1,0) [(0,-1),(0,0),(0,1)]),
         equals [(-1,0),(0,0),(1,0)] (evolve [(0,-1),(0,0),(0,1)])
     ]
 

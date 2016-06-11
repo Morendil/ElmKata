@@ -2,16 +2,19 @@ module Life exposing (view, evolve, neighbours, countNeighbours) -- where
 import Html exposing (text)
 import Html.App exposing (program)
 import String exposing (concat)
-import List exposing (length, map, concatMap, drop)
+import List exposing (length, map, concatMap, drop, member)
 import Time exposing (Time, second)
 import Dict
 import Dict.Extra
 
 type Event = Tick Time
 
-world = [(0,0)]
+world = [(0,-1),(0,0),(0,1)]
 
-evolve word = []
+evolve world = 
+    let wasAlive cell = member cell world
+        filtered = Dict.filter (\k v -> let l = length v in l == 3 || ((wasAlive k) && (l == 2))) (neighbourMap world)
+    in Dict.keys filtered
 
 neighbourMap world =
     Dict.Extra.groupBy identity <| concatMap neighbours world
