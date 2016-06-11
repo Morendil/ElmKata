@@ -7,6 +7,7 @@ import Time exposing (Time, second)
 import Collage exposing (filled, rect, collage, move)
 import Color exposing (..)
 import Element exposing (toHtml)
+import Maybe exposing (withDefault)
 import Dict
 import Dict.Extra
 
@@ -23,10 +24,7 @@ neighbourMap world =
     Dict.Extra.groupBy identity <| concatMap neighbours world
 
 countNeighbours cell world =
-    let value = Dict.get cell <| neighbourMap world
-    in case value of
-        Nothing -> 0
-        Just keys -> length keys
+    length <| withDefault [] <| Dict.get cell <| neighbourMap world
 
 neighbours (x,y) =
     map (\ (ox,oy) -> (x+ox,y+oy)) neighbourOffsets
