@@ -17,14 +17,14 @@ world = [(-1,0),(0,0),(1,0),(1,1),(0,2)]
 
 evolve world = 
     let wasAlive cell = member cell world
-        filtered = Dict.filter (\k v -> let l = length v in l == 3 || ((wasAlive k) && (l == 2))) (neighbourMap world)
+        filtered = Dict.filter (\ cell count -> (count == 3) || ((wasAlive cell) && (count == 2))) (neighbourMap world)
     in Dict.keys filtered
 
 neighbourMap world =
-    Dict.Extra.groupBy identity <| concatMap neighbours world
+    Dict.map (always length) <| Dict.Extra.groupBy identity <| concatMap neighbours world
 
 countNeighbours cell world =
-    length <| withDefault [] <| Dict.get cell <| neighbourMap world
+    withDefault 0 <| Dict.get cell <| neighbourMap world
 
 neighbours (x,y) =
     map (\ (ox,oy) -> (x+ox,y+oy)) neighbourOffsets
