@@ -1,4 +1,4 @@
-module Life exposing (view, evolve, neighbours, countNeighbours) -- where
+module Life exposing (debug, evolve, neighbours, countNeighbours) -- where
 import Html exposing (text)
 import Html.App exposing (program)
 import String exposing (concat)
@@ -32,6 +32,8 @@ neighbourOffsets =
     let offsets = [0,1,-1]
         pairWith offsets x = map ((,) x) offsets
     in drop 1 <| concatMap (pairWith offsets) offsets
+
+debug = view
 
 view cells =
     case cells of
