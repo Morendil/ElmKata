@@ -4,8 +4,8 @@ import Html.App exposing (program)
 import String exposing (concat)
 import List exposing (length, map, concatMap, drop, member)
 import Time exposing (..)
-import Collage exposing (filled, rect, collage, move)
-import Color exposing (..)
+import Svg exposing (svg, rect)
+import Svg.Attributes exposing (x, y, width, height, style, viewBox)
 import Element exposing (toHtml)
 import Maybe exposing (withDefault)
 import Dict
@@ -44,13 +44,13 @@ debug cells =
         otherwise   -> text <| concat ["The world has population ", toString <| length cells, " ", toString cells]
 
 display cells =
-    let displayOne (x,y) = move ((toFloat x)*11-435, (toFloat y)*11-325) <| filled white <| rect 10 10
+    let displayOne (xx,yy) = rect [x <| toString ((toFloat xx)*11), y <| toString <| ((toFloat yy)*11),  width "10", height "10", style "fill:white"] []
     in map displayOne cells
 
 view cells =
-    div []  [
-        toHtml <| collage 880 660 ((filled black <| rect 880 660) :: display cells)
-            ]
+    svg
+        [width "880", height "660", viewBox "0 0 880 660"]
+        ((rect [width "880", height "660"] []) :: (display cells))
 
 update event model =
     case event of
