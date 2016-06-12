@@ -39,10 +39,7 @@ countNeighbours cell world =
 neighbours (x,y) =
     map (\ (ox,oy) -> (x+ox,y+oy)) neighbourOffsets
 
-neighbourOffsets =
-    let offsets = [0,1,-1]
-        pairWith offsets x = map ((,) x) offsets
-    in drop 1 <| concatMap (pairWith offsets) offsets
+neighbourOffsets = [(0,1),(0,-1),(1,0),(1,1),(1,-1),(-1,0),(-1,1),(-1,-1)]
 
 debug cells =
     case cells of
