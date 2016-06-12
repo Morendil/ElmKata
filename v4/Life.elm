@@ -1,18 +1,20 @@
 module Life exposing (debug, evolve, neighbours, countNeighbours) -- where
 import Html exposing (text, div)
+import Html.Events exposing (on)
 import Html.App exposing (program)
 import String exposing (concat)
-import List exposing (length, map, concatMap, drop, member)
+import List exposing (length, map, concatMap, drop, member, filter)
 import Time exposing (..)
 import Svg exposing (svg, rect)
 import Svg.Attributes exposing (x, y, width, height, style, viewBox)
 import Element exposing (toHtml)
 import Maybe exposing (withDefault)
+import Json.Decode exposing (Decoder, (:=))
 import Dict
 import Dict.Extra
 import Random
 
-type Event = Tick Time | World (List (Int, Int))
+type Event = Tick Time | World (List (Int, Int)) | Click (Int, Int)
 
 world = [(-1,0),(0,0),(1,0),(1,1),(0,2)]
 
@@ -48,14 +50,26 @@ display cells =
     in map displayOne cells
 
 view cells =
-    svg
+    div [on "click" (Json.Decode.map Click offsetPosition)]
+    [svg
         [width "880", height "660", viewBox "0 0 880 660"]
         ((rect [width "880", height "660"] []) :: (display cells))
+    ]
+
+offsetPosition : Decoder ( Int, Int )
+offsetPosition =
+    Json.Decode.object2 (,)
+        ("offsetX" := Json.Decode.int)
+        ("offsetY" := Json.Decode.int)
 
 update event model =
     case event of
         Tick _ -> (evolve model, Cmd.none)
         World model -> (model, Cmd.none)
+        Click (x,y) ->
+            let cell = (x//11,y//11)
+                model' = if member cell model then filter ((/=) cell) model else (cell :: model)
+            in (model', Cmd.none)
 
 main = program
     {
