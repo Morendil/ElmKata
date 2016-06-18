@@ -35,9 +35,12 @@ neighbours position = map (add position) offsets
 -- Update
 
 evolve world =
-    let wasAlive cell = member cell world
-        willLive cell = (wasAlive cell && (countNeighbours cell world == 2)) || (countNeighbours cell world == 3)
-    in filter willLive world -- this is fatally wrong ;)
+    let allNeighbours = concat <| map neighbours world
+        neighbourMap = Dict.map (always length) <| Dict.Extra.groupBy identity allNeighbours
+        wasAlive cell = member cell world
+        neighboursOf cell = withDefault 0 <| get cell neighbourMap
+        willLive cell = (wasAlive cell && ((neighboursOf cell) == 2)) || (neighboursOf cell == 3)
+    in filter willLive (Dict.keys neighbourMap)
 
 update message world =
     case message of
